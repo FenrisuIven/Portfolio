@@ -10,13 +10,15 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "clsx": "^2.1.1",
     "dotenv": "^18.0.3",
     "drizzle-orm": "^1.0.0-rc.4",
     "next": "16.3.6",
     "next-auth": "^5.0.0-beta.32",
     "pg": "^8.23.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
