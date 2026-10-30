@@ -22,7 +22,7 @@ export default function LoginPage() {
         }
       }}
     >
-      <input type="text" name="email" />
+      <input type="text" name="email" className="" />
       <input type="password" name="password" />
       <input type="submit" />
     </form>
