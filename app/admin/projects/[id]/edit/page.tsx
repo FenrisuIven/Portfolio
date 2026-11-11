@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getProjectById } from "@/features/projects/queries";
 import { updateProjectAction, deleteProjectAction } from "@/features/projects/actions";
+import ImageUploadField from "@/components/admin/image-upload-field";
 
 export default async function EditProjectPage({
   params,
@@ -59,13 +60,8 @@ export default async function EditProjectPage({
           <input type="text" name="live_url" defaultValue={project.live_url ?? ""} />
         </label>
         <label>
-          Cover image URL
-          <input
-            type="text"
-            name="cover_image_url"
-            defaultValue={project.cover_image_url}
-            required
-          />
+          Cover image
+          <ImageUploadField name="cover_image_url" defaultValue={project.cover_image_url} />
         </label>
         <label>
           Featured

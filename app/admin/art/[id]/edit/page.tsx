@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getArtPieceById } from "@/features/art/queries";
 import { updateArtPieceAction, deleteArtPieceAction } from "@/features/art/actions";
+import ImageUploadField from "@/components/admin/image-upload-field";
 
 export default async function EditArtPage({
   params,
@@ -31,8 +32,8 @@ export default async function EditArtPage({
           <textarea name="description" defaultValue={piece.description} required />
         </label>
         <label>
-          Image URL
-          <input type="text" name="image_url" defaultValue={piece.image_url} required />
+          Image
+          <ImageUploadField name="image_url" defaultValue={piece.image_url} />
         </label>
         <label>
           Gallery URLs (comma separated)

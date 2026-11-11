@@ -1,4 +1,5 @@
 import { createProjectAction } from "@/features/projects/actions";
+import ImageUploadField from "@/components/admin/image-upload-field";
 
 export default function NewProjectPage() {
   return (
@@ -36,8 +37,8 @@ export default function NewProjectPage() {
         <input type="text" name="live_url" />
       </label>
       <label>
-        Cover image URL
-        <input type="text" name="cover_image_url" required />
+        Cover image
+        <ImageUploadField name="cover_image_url" />
       </label>
       <label>
         Featured

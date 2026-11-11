@@ -1,4 +1,5 @@
 import { createArtPieceAction } from "@/features/art/actions";
+import ImageUploadField from "@/components/admin/image-upload-field";
 
 export default function NewArtPage() {
   return (
@@ -16,8 +17,8 @@ export default function NewArtPage() {
         <textarea name="description" required />
       </label>
       <label>
-        Image URL
-        <input type="text" name="image_url" required />
+        Image
+        <ImageUploadField name="image_url" />
       </label>
       <label>
         Gallery URLs (comma separated)
