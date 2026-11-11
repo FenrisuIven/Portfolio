@@ -3,15 +3,33 @@ import { getAllProjects } from "@/features/projects/queries";
 import { getAllArtPieces } from "@/features/art/queries";
 import { moveProjectAction } from "@/features/projects/actions";
 import { moveArtPieceAction } from "@/features/art/actions";
+import { getSiteSettings } from "@/features/settings/queries";
+import { updateResumeUrlAction } from "@/features/settings/actions";
 
 export default async function AdminHomePage() {
-  const [projects, artPieces] = await Promise.all([
+  const [projects, artPieces, settings] = await Promise.all([
     getAllProjects(),
     getAllArtPieces(),
+    getSiteSettings(),
   ]);
 
   return (
     <>
+      <section>
+        <h2>Resume link</h2>
+        <form action={updateResumeUrlAction}>
+          <label>
+            Resume URL (Google Drive share link, or any direct PDF URL)
+            <input
+              type="text"
+              name="resume_url"
+              defaultValue={settings?.resume_url ?? ""}
+            />
+          </label>
+          <button type="submit">Save</button>
+        </form>
+      </section>
+
       <section>
         <h2>Projects</h2>
         <Link href="/admin/projects/new">New project</Link>
