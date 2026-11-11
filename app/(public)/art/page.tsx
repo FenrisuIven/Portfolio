@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getPublishedArtPieces } from "@/features/art/queries";
+
+export const metadata: Metadata = {
+  title: { absolute: "Art — Fenrisuiven" },
+  description: "TODO: replace with a real description of the art section.",
+};
 
 export default async function ArtHomePage() {
   const artPieces = await getPublishedArtPieces();

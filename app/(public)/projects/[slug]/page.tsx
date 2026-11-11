@@ -1,5 +1,27 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPublishedProjectBySlug } from "@/features/projects/queries";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await getPublishedProjectBySlug(slug);
+
+  if (!project) return {};
+
+  return {
+    title: project.title,
+    description: project.summary,
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      images: [project.cover_image_url],
+    },
+  };
+}
 
 export default async function ProjectPage({
   params,

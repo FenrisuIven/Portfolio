@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { submitContactAction } from "@/features/contact/actions";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "TODO: replace with a real description of the contact page.",
+};
 
 export default async function ContactPage({
   searchParams,

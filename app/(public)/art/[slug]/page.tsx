@@ -1,5 +1,27 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPublishedArtPieceBySlug } from "@/features/art/queries";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const piece = await getPublishedArtPieceBySlug(slug);
+
+  if (!piece) return {};
+
+  return {
+    title: { absolute: `${piece.title} — Fenrisuiven` },
+    description: piece.description,
+    openGraph: {
+      title: `${piece.title} — Fenrisuiven`,
+      description: piece.description,
+      images: [piece.image_url],
+    },
+  };
+}
 
 export default async function ArtPiecePage({
   params,
