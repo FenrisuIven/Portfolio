@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { programmingProjectsTable } from "@/db/schema";
 import { projectSchema } from "./validation";
+import { getAllProjects } from "./queries";
 
 export async function createProject(input: unknown) {
   const data = projectSchema.parse(input);
@@ -67,4 +68,28 @@ export async function updateProjectAction(id: string, formData: FormData) {
 export async function deleteProjectAction(id: string) {
   await deleteProject(id);
   redirect("/admin");
+}
+
+export async function moveProjectAction(id: string, direction: "up" | "down") {
+  const projects = await getAllProjects();
+  const index = projects.findIndex((p) => p.id === id);
+  if (index === -1) return;
+
+  const swapIndex = direction === "up" ? index - 1 : index + 1;
+  if (swapIndex < 0 || swapIndex >= projects.length) return;
+
+  const reordered = [...projects];
+  [reordered[index], reordered[swapIndex]] = [reordered[swapIndex], reordered[index]];
+
+  await Promise.all(
+    reordered.map((project, i) =>
+      db
+        .update(programmingProjectsTable)
+        .set({ sort_order: i })
+        .where(eq(programmingProjectsTable.id, project.id))
+    )
+  );
+
+  revalidatePath("/admin");
+  revalidatePath("/projects");
 }

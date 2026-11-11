@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { artPiecesTable } from "@/db/schema";
 import { artPieceSchema } from "./validation";
+import { getAllArtPieces } from "./queries";
 
 export async function createArtPiece(input: unknown) {
   const data = artPieceSchema.parse(input);
@@ -68,4 +69,28 @@ export async function updateArtPieceAction(id: string, formData: FormData) {
 export async function deleteArtPieceAction(id: string) {
   await deleteArtPiece(id);
   redirect("/admin");
+}
+
+export async function moveArtPieceAction(id: string, direction: "up" | "down") {
+  const pieces = await getAllArtPieces();
+  const index = pieces.findIndex((p) => p.id === id);
+  if (index === -1) return;
+
+  const swapIndex = direction === "up" ? index - 1 : index + 1;
+  if (swapIndex < 0 || swapIndex >= pieces.length) return;
+
+  const reordered = [...pieces];
+  [reordered[index], reordered[swapIndex]] = [reordered[swapIndex], reordered[index]];
+
+  await Promise.all(
+    reordered.map((piece, i) =>
+      db
+        .update(artPiecesTable)
+        .set({ sort_order: i })
+        .where(eq(artPiecesTable.id, piece.id))
+    )
+  );
+
+  revalidatePath("/admin");
+  revalidatePath("/art");
 }
