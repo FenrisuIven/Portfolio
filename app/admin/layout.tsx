@@ -11,7 +11,7 @@ export default async function RootAdminLayout({
 }) {
   const session = await auth();
 
-  return (<main>
+  return (<main className="flex flex-col flex-1 w-full">
     <header className="flex place-content-between m-2">
       <div></div>
       <div></div>
@@ -27,6 +27,6 @@ export default async function RootAdminLayout({
         )}
       </div>
     </header>
-    <div>{children}</div>
+    <div className="flex flex-1 w-full">{children}</div>
   </main>);
 }
